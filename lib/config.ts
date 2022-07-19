@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+import { getFirestore, serverTimestamp } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: "AIzaSyAd0kWlno-TjsCVAsQQUMyy7KkNvWib0tU",
@@ -12,9 +13,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig)
-const storage = getStorage(app)
-const db = getFirestore(app)
+export const app = initializeApp(firebaseConfig)
+export const storage = getStorage(app)
+export const db = getFirestore(app)
+export const auth = getAuth()
+export const googleAuthProvider = new GoogleAuthProvider();
+export const signWithPopup =  signInWithPopup
 
-
-export default { storage, db }
+export const timestamp = serverTimestamp;

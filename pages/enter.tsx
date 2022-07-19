@@ -1,11 +1,13 @@
 import { signOut } from 'firebase/auth'
 import { auth, googleAuthProvider, signWithPopup } from '../lib/config'
+import { useContext } from "react"
+import { userContext } from "../lib/context"
 
 const Enter = () => {
+  const { admin } = useContext(userContext);
+
   return (
-    <div>
-      <SignInButton />
-      <SignOutButton />
+    <div>{ admin ? <SignInButton />: <SignOutButton /> }
     </div>
   )
 }

@@ -3,16 +3,19 @@ import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from './config'
 
+
 export const useUserData = () => {
-const [user] = useAuthState(auth)
-const [admin, setAdmin ] = useState(false)
+  const [user] = useAuthState(auth)
+  const [admin, setAdmin ] = useState(false)
 
   useEffect(() => {
     let unsubscribe;
     if(user) {
-      const ref = doc(db, 'users', user.uid)
-      unsubscribe = onSnapshot(ref, (doc) => {
-        setAdmin(doc.data()?.isAdmin)
+      const ref = collection(db, 'users')
+      unsubscribe = onSnapshot(ref, (snapshot) => {
+        snapshot.docs.forEach(doc => { const {isAdmin} = doc.data()
+        setAdmin(isAdmin)})
+
       })
     } else {
       setAdmin(false)
@@ -20,6 +23,6 @@ const [admin, setAdmin ] = useState(false)
     return unsubscribe
   }, [user])
 
-  return { user, admin }
+  return { admin }
 
 }

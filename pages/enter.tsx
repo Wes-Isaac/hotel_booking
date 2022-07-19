@@ -7,7 +7,10 @@ const Enter = () => {
   const { admin } = useContext(userContext);
 
   return (
-    <div>{ admin ? <SignInButton />: <SignOutButton /> }
+    <div>
+      <SignInButton />
+      <SignOutButton />
+      <h1>{admin? "Admin" : "User"}</h1>
     </div>
   )
 }

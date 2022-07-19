@@ -3,12 +3,16 @@ import type { AppProps } from 'next/app'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { userContext } from '../lib/context'
+import { useUserData } from '../lib/hooks'
 
 
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+  const userData = useUserData();
+
   return (
-  <userContext.Provider value={{admin: true}} >
+  <userContext.Provider value={ userData } >
     <Navbar />
     <Component {...pageProps} />
     <Footer />

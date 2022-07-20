@@ -1,9 +1,9 @@
-
+import { ImageUploader } from "./ImageUploader";
 
 const UploadForm = () => {
   return (
     <form>
-      <input type="file" />
+      <ImageUploader />
       <label htmlFor="title">Title:</label>
       <input type="text" id="title" placeholder="Title" />
       <label htmlFor="price">Price:</label>

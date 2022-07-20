@@ -1,39 +1,44 @@
-import { FormEvent, InputHTMLAttributes, useState } from 'react';
-import { ref, StorageError, uploadBytesResumable } from 'firebase/storage'
-
+import { ChangeEvent, SetStateAction, useState, Dispatch } from 'react';
+import { ref, StorageError, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { auth, storage } from '../lib/config';
 import Loader from './Loader';
-import { FirebaseError } from 'firebase/app';
 
-export const ImageUploader= () => {
+export const ImageUploader= ({ setDownloadURL }: {setDownloadURL: Dispatch<SetStateAction<string | undefined>>} ) => {
 
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<StorageError>()
 
-  const uploadFile = (e:FormEvent<HTMLInputElement>) => {
-    const files = (e.target as HTMLInputElement).files; 
+  const uploadFile = (e:ChangeEvent<HTMLInputElement>) => {
+    const files = (e.target as HTMLInputElement).files;
+    console.log(e.target.value)
 
-    if(!files){
+    if(!files?.length){
         new  Error("No file selected")
         return
     }
-
     const file = files[0]
-    const storageRef = ref(storage, file.name)
+    const storageRef = ref(storage, `${auth.currentUser?.displayName}/${file.name}`)
     setUploading(true)
     // const collectionRef = collection(db, 'images')
 
-    uploadBytesResumable(storageRef, file)
-    .on('state_changed', ((snapshot) => {
+    const upload = uploadBytesResumable(storageRef, file)
+
+    upload.on('state_changed', ((snapshot) => {
       console.log(snapshot)
       const pct = Number(((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0))
       setProgress(pct)
     }),(error) => {
       console.log(error.message)
       setError(error)
-
+    }, () => {
+      getDownloadURL(upload.snapshot.ref).then((downloadURL) => {
+        console.log('File available at', downloadURL);
+        setUploading(false)
+        setDownloadURL(downloadURL)
+      });
     }
+
     )
     
     

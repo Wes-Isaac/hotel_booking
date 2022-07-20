@@ -8,9 +8,10 @@ const Enter = () => {
 
   return (
     <div>
-      <SignInButton />
-      <SignOutButton />
-      <h1>{admin? "Admin" : "User"}</h1>
+        <SignInButton />
+        <SignOutButton />
+        <h1>{admin? "Admin" : "User"}</h1>
+      
     </div>
   )
 }

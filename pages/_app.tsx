@@ -4,6 +4,8 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { userContext } from '../lib/context'
 import { useUserData } from '../lib/hooks'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 
@@ -13,6 +15,17 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
   <userContext.Provider value={ userData } >
+    <ToastContainer
+      position="top-right"
+      autoClose={2000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      />
     <Navbar />
     <Component {...pageProps} />
     <Footer />

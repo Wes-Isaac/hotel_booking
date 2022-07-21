@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { collection, addDoc } from "firebase/firestore";
 import { db, auth, timestamp } from "../lib/config";
+import { toast } from 'react-toastify'
+
 
 const UploadForm = () => {
   const {register, handleSubmit, setValue, reset } = useForm()
@@ -21,7 +23,9 @@ const UploadForm = () => {
         createdAt: timestamp(),
         UpdatedAt: timestamp(),
       }).then(() => {
+        toast.success('Upload Successful', { position: toast.POSITION.TOP_CENTER })
         reset()
+        
       })
 
       }

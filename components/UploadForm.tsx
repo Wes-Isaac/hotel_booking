@@ -1,8 +1,8 @@
-import { ImageUploader } from "./ImageUploader";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { collection, addDoc } from "firebase/firestore";
-import { db, auth, timestamp } from "../lib/config";
+import { ImageUploader } from "./ImageUploader";
+import { db, timestamp } from "../lib/config";
 import { toast } from 'react-toastify'
 
 

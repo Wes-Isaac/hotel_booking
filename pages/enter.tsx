@@ -1,28 +1,36 @@
-import { signOut } from 'firebase/auth'
-import { auth, googleAuthProvider, signWithPopup } from '../lib/config'
-import { useContext } from "react"
-import { userContext } from "../lib/context"
+import { User } from 'firebase/auth'
+import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore'
+import { useContext } from 'react'
+import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
+import { UserContext } from '../lib/context'
+import { auth, db, googleAuthProvider, signWithPopup } from '../lib/config'
+import { redirect } from 'next/dist/server/api-utils'
 
 const Enter = () => {
-  const { admin } = useContext(userContext);
-
+  const { user, admin } = useContext(UserContext);
+  
   return (
     <div>
-        <SignInButton />
-        <SignOutButton />
-        <h1>{admin? "Admin" : "User"}</h1>
-      
+        { !user && <SignInButton /> }
+        <h1>{admin? "Admin" : "User"}</h1>   
     </div>
   )
 }
 
+
 const SignInButton = () => {
-  const signInwithGoogle =async () => {
-    try{
-      await signWithPopup(auth, googleAuthProvider)
-    } catch(err) {
-      console.log(err)
+  const router = useRouter()
+  const signInwithGoogle = async () => {
+  
+    await signWithPopup(auth, googleAuthProvider).then(res =>{ 
+      writeToUser(res.user)
+      toast.success('Sign in successful', { position: toast.POSITION.TOP_CENTER })
     }
+    ).catch(err => {
+      console.log(err.message)
+    })
+    router.push('/')
   
   }
 
@@ -32,13 +40,16 @@ const SignInButton = () => {
 
 }
 
-const SignOutButton = () => {
-  return(
-    <button onClick={ () => {signOut(auth) 
-      console.log('Signed out')} }>Sign out</button>
-  )
-  
+
+const writeToUser =async (user: User| null| undefined) => {
+  if(user?.uid){
+    const userDoc = doc(db, 'users', user?.uid)
+    const docSnap = await getDoc(userDoc)
+    if(!docSnap.exists()) {  
+      setDoc(userDoc, {isAdmin: false, uid: user?.uid})
+      .catch((error) => console.log('ERROR MESSAGE ',error.message))
+    } 
+  }
 }
 
 export default Enter;
- 

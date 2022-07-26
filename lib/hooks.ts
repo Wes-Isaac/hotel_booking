@@ -1,4 +1,4 @@
-import { collection, onSnapshot } from 'firebase/firestore'
+import { collection, doc, onSnapshot } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from './config'
@@ -11,13 +11,11 @@ export const useUserData = () => {
   useEffect(() => {
     let unsubscribe;
     if(user) {
-      const ref = collection(db, 'users')
-      unsubscribe = onSnapshot(ref, (snapshot) => {
-        snapshot.docs.forEach(doc => {
-          const {isAdmin} = doc.data()
-          setAdmin(isAdmin)
-        })
+      const ref = doc(db, 'users', user.uid)
+      // const ref = collection(db, 'users')
 
+      unsubscribe = onSnapshot(ref, (doc) => {
+        setAdmin(doc.data()?.isAdmin)
       })
     } else {
       setAdmin(false)
@@ -25,6 +23,6 @@ export const useUserData = () => {
     return unsubscribe
   }, [user])
 
-  return { admin }
+  return { user, admin }
 
 }

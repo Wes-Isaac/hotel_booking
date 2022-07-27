@@ -7,7 +7,7 @@ export const AdminCheck:FC<{
   children:ReactElement
 }> = (props) => {
 
-  const isAdmin  = useContext(UserContext)
-  return isAdmin ? props.children : <Link href="/enter">Yess</Link>
+  const { user }  = useContext(UserContext)
+  return user ? props.children : <Link href="/enter">Sign in</Link>
   
 }

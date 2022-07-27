@@ -46,9 +46,9 @@ const Home = ({ rooms }: { rooms: string }) => {
     const cursor = last.createdAt
     const colRef = collection(db, 'rooms')
     const q = query(colRef, orderBy("price"), startAfter(last?.price), limit(4))
-    console.log(last)
+    // console.log(last)
 
-    const newPosts =   (await getDocs(q)).docs.map((doc) => ({...doc.data(), id:doc.id}));
+    const newPosts =  (await getDocs(q)).docs.map((doc) => ({...doc.data(), id:doc.id}));
 
     setPosts(posts.concat(newPosts as RoomData[]))
     setLoading(false)
@@ -56,10 +56,7 @@ const Home = ({ rooms }: { rooms: string }) => {
     if (newPosts.length < 1) {
       setPostsEnd(true)
     }
-
-
   }
-
 
   return (
     <main>

@@ -15,6 +15,11 @@ a {
   box-sizing: border-box;
 }
 
+.ind-rm {
+  border: 1px solid #000;
+  margin: 10px;
+}
+
 .loader {
   border: 10px solid #eef0f1; 
   border-top: 10px solid #08090a; 

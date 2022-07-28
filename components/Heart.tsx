@@ -17,7 +17,7 @@ export const Heart =  ({roomRef}: {roomRef:DocumentReference<DocumentData>}) => 
     await batch.commit()
   }
 
-  const removeHeart = async() => {
+  const removeHeart = async () => {
     const batch = writeBatch(db)
     batch.update(roomRef, {heartCount: increment(-1)})
     batch.delete(heartRef!)

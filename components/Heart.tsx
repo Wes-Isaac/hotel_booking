@@ -1,5 +1,5 @@
 import { async } from "@firebase/util"
-import { doc, DocumentData, DocumentReference, getFirestore, increment, writeBatch } from "firebase/firestore"
+import { doc, DocumentData, DocumentReference, increment, writeBatch } from "firebase/firestore"
 import {useDocument} from 'react-firebase-hooks/firestore'
 import { db,auth } from "../lib/config"
 

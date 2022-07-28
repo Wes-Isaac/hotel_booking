@@ -11,6 +11,7 @@ import { AuthCheck } from "../components/AuthCheck";
 import { UserContext } from '../lib/context'
 import { toast } from "react-toastify";
 import PostContent from "../components/PostContent";
+import { Reserve } from "../components/Reserve";
 
 
 interface Props  {
@@ -74,6 +75,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
             <strong>{room.heartCount || 0} 🤍</strong>
           </p>
         <Heart roomRef={roomRef} />
+        <Reserve room={room} roomRef={roomRef} />
       </>
       </AuthCheck>
 

@@ -7,7 +7,7 @@ import { ParsedUrlQuery } from "querystring"
 import { collection, doc, DocumentData, DocumentReference, getDoc, getDocs, query, deleteDoc } from "firebase/firestore"
 import { db } from "../lib/config"
 import { Heart } from '../components/Heart';
-import { AdminCheck } from "../components/AdminCheck";
+import { AuthCheck } from "../components/AuthCheck";
 import { UserContext } from '../lib/context'
 import { toast } from "react-toastify";
 import PostContent from "../components/PostContent";
@@ -67,15 +67,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return (
     <div>
       <h1>Individual room</h1>
-      <PostContent />
-      <AdminCheck>
+      <PostContent room={room} />
+      <AuthCheck>
       <>
         <p>
             <strong>{room.heartCount || 0} 🤍</strong>
           </p>
         <Heart roomRef={roomRef} />
       </>
-      </AdminCheck>
+      </AuthCheck>
 
       {admin && (
         <>
@@ -91,24 +91,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 
-
 function DeletePostButton({ roomRef }: {roomRef: DocumentReference<DocumentData>}) {
-  const router = useRouter();
+  const router = useRouter()
 
   const deletePost = async () => {
-    const doIt = confirm('are you sure!');
+    const doIt = confirm('are you sure!')
     if (doIt) {
-      await deleteDoc(roomRef);
-      router.push('/admin');
-      toast('Room annihilated ', { icon: '🗑️' });
+      await deleteDoc(roomRef)
+      router.push('/admin')
+      toast('Room annihilated ', { icon: '🗑️' })
     }
-  };
+  }
 
   return (
     <button className="btn-red" onClick={deletePost}>
       Delete
     </button>
-  );
+  )
 }
 
 

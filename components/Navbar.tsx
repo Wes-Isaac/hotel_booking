@@ -29,7 +29,7 @@ const Navbar = () => {
          </li>
          <li>
           <Link href={`/${user.displayName}`}>
-            <img src={user?.photoURL || './favicon.ico'} />
+            <img src={user?.photoURL || '/favicon.ico'} />
           </Link>
          </li>
          {admin && (

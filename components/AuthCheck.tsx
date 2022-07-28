@@ -3,7 +3,7 @@ import { FC, ReactElement, useContext } from "react"
 import { UserContext } from "../lib/context"
 
 
-export const AdminCheck:FC<{
+export const AuthCheck:FC<{
   children:ReactElement
 }> = (props) => {
 

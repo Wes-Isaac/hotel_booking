@@ -1,15 +1,17 @@
 import { async } from "@firebase/util"
 import { doc, DocumentData, DocumentReference, increment, writeBatch } from "firebase/firestore"
 import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
 import { useDocument } from 'react-firebase-hooks/firestore'
 import { db,auth } from "../lib/config"
 import { useState } from "react";
+import {DateObject}  from "react-multi-date-picker";
+import DatePicker from "react-multi-date-picker";
+
 
 export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: DocumentReference }) => {
-  const {register, handleSubmit, setValue, reset } = useForm()
-  const [ startDate, setStartDate ] = useState<Date>()
-  const isValid = startDate 
+  
+  // const [ startDate, setStartDate ] = useState<Date>()
+  // const isValid = startDate 
   
   const reserveRef = auth.currentUser && doc(db ,roomRef.path, 'reservation',auth.currentUser?.uid)
 
@@ -41,7 +43,11 @@ export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: Docume
     <button onClick={cancelReservation}>Cancel Reservation</button>
   ) : (
     <form >
-      <input type='date' min={(new Date()).toDateString()} onChange={(e) => setStartDate(new Date(e.target.value))} />
+      {/* <input  /> */}
+      <DatePicker
+        range
+        minDate={new DateObject()}
+        maxDate={new DateObject().add(15, "days")} />
       <input onClick={reserve}  type='submit' value='Reserve' />
     </form>
   );

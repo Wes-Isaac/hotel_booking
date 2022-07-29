@@ -6,7 +6,6 @@ import { useState } from 'react'
 import Loader from '../components/Loader'
 import { PostFeed } from '../components/PostFeed'
 import { db, timestamp } from '../lib/config'
-import styles from '../styles/Home.module.css'
 
 export interface RoomData {
   image: string;
@@ -20,7 +19,7 @@ export interface RoomData {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const colRef = collection(db, 'rooms')
-  const q = query(colRef, orderBy("price"), limit(4))
+  const q = query(colRef,where("reserved","==",false), orderBy("price"), limit(4))
   let rooms: RoomData[] = []
 
   const queryDocs = await getDocs(q)

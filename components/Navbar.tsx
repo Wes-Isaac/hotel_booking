@@ -22,7 +22,7 @@ const Navbar = () => {
       {user && (
         <>
          <li>
-          <Link href=''><a>Reservation</a></Link>
+          <Link href={`/reservation/${user.uid}`}><a>Reservation</a></Link>
          </li>
          <li>
           <button onClick={logOut} >Sign out</button>

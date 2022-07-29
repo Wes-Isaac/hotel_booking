@@ -3,14 +3,13 @@ import { toast } from "react-toastify";
 import { useDocument } from 'react-firebase-hooks/firestore'
 import { db,auth } from "../lib/config"
 import { FormEvent, useState } from "react";
-import {DateObject, Value}  from "react-multi-date-picker";
+import {DateObject, Value} from "react-multi-date-picker";
 import DatePicker from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import "react-multi-date-picker/styles/colors/teal.css"
 
 
 export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: DocumentReference }) => {
-  // Timestamp.fromDate([])
   const [ date, setDate ] = useState<Value>([
     new DateObject(),
     new DateObject().add(1, "day")

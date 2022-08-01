@@ -14,16 +14,14 @@ export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: Docume
     new DateObject(),
     new DateObject().add(1, "day")
   ])
-  const [ dateArray, setDateArray ] = useState<string[]>([])
+  const [ dateArray, setDateArray ] = useState<string>()
   
   const reserveRef = auth.currentUser && doc(db ,roomRef.path, 'reservation',auth.currentUser?.uid)
   const [reserveDoc] = useDocument(reserveRef)
 
   const reserve = async (e: FormEvent) => {
     e.preventDefault()
-    setDateArray(JSON.stringify(date).replace(/[[\]]/g, '').split(','))
-    const d = dateArray.map(num=>parseInt(num))
-    console.log(d)
+    const [startDate, endDate] = dateArray!.replace(/[[\]]/g, '').split(',').map(num=>parseInt(num))
     const uid = auth.currentUser?.uid
     const batch = writeBatch(db)
     batch.update(roomRef, { reserved: true })
@@ -31,8 +29,8 @@ export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: Docume
       uid,
       price: room.price,
       title: room.title,
-      startDate: Timestamp.fromMillis(d[0]),
-      endDate: Timestamp.fromMillis(d[1]),
+      startDate: Timestamp.fromMillis(startDate),
+      endDate: Timestamp.fromMillis(endDate),
     })
     await batch.commit()
     toast.success(`reservation date ${date}`, { position: toast.POSITION.TOP_CENTER, hideProgressBar: true, autoClose: 800 })
@@ -51,9 +49,13 @@ export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: Docume
     <form onSubmit={reserve}>
       <DatePicker
         className="teal"
+        required
         render={<InputIcon />}
         value={date}
-        onChange={setDate}
+        onChange={dateObj => {
+          setDate
+          setDateArray(JSON.stringify(dateObj))
+        }}
         range
         minDate={new DateObject()}
         maxDate={new DateObject().add(15, "days")} />

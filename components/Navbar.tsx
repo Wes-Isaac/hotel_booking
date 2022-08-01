@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { useContext } from "react"
 import { auth } from "../lib/config"
 import { UserContext } from "../lib/context"
+import { AuthCheck } from "./AuthCheck"
 
 const Navbar = () => {
   const{ user,admin } = useContext(UserContext)

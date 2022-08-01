@@ -8,7 +8,6 @@ import { toast } from 'react-toastify'
 
 const UploadForm = () => {
   const {register, handleSubmit, setValue, reset } = useForm()
-  // const [ data, setData ] = useState("")
   const [downloadURL, setDownloadURL] = useState<string>();
 
 
@@ -16,7 +15,6 @@ const UploadForm = () => {
 
   return (
     <form onSubmit={handleSubmit((data) => {
-      console.log(data)
       const collectionRef = collection(db, 'rooms')
       addDoc(collectionRef, {
         ...data,

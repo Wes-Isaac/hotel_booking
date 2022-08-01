@@ -65,7 +65,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const [realTimeData] = useDocumentData(roomRef)
   const room = realTimeData || JSON.parse(post)
   const { admin } = useContext(UserContext)
-  // console.log(post)
 
   return (
     <div>

@@ -1,8 +1,9 @@
 import { ChangeEvent, SetStateAction, useState, Dispatch } from 'react';
 import { ref, StorageError, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import { useForm } from 'react-hook-form';
 import { auth, storage } from '../lib/config';
 import Loader from './Loader';
-import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 export const ImageUploader= ({ setDownloadURL }: {setDownloadURL: Dispatch<SetStateAction<string | undefined>>} ) => {
 
@@ -13,7 +14,6 @@ export const ImageUploader= ({ setDownloadURL }: {setDownloadURL: Dispatch<SetSt
 
   const uploadFile = (e:ChangeEvent<HTMLInputElement>) => {
     const files = (e.target as HTMLInputElement).files;
-    console.log(e.target.value)
 
     if(!files?.length){
         new  Error("No file selected")
@@ -27,15 +27,13 @@ export const ImageUploader= ({ setDownloadURL }: {setDownloadURL: Dispatch<SetSt
     const upload = uploadBytesResumable(storageRef, file)
 
     upload.on('state_changed', ((snapshot) => {
-      console.log(snapshot)
       const pct = Number(((snapshot.bytesTransferred / snapshot.totalBytes) * 100).toFixed(0))
       setProgress(pct)
     }),(error) => {
-      console.log(error.message)
+      toast.error(`${error.message}`, { position: toast.POSITION.TOP_CENTER, hideProgressBar: true, autoClose: 800 })
       setError(error)
     }, () => {
       getDownloadURL(upload.snapshot.ref).then((downloadURL) => {
-        console.log('File available at', downloadURL);
         setUploading(false)
         setDownloadURL(downloadURL)
       });

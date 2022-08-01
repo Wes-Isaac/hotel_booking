@@ -45,7 +45,6 @@ const Home = ({ rooms }: { rooms: string }) => {
     const cursor = last.createdAt
     const colRef = collection(db, 'rooms')
     const q = query(colRef, orderBy("price"), startAfter(last?.price), limit(4))
-    // console.log(last)
 
     const newPosts =  (await getDocs(q)).docs.map((doc) => ({...doc.data(), id:doc.id}));
 

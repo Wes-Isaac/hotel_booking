@@ -24,9 +24,7 @@ const Reservation =  ({recomms}: {recomms:string}) => {
   const { admin } = useContext(UserContext)
   const router =  useRouter()
   const [ reservation, setReservation ] = useState<DocumentData[]>(JSON.parse(recomms))
-  console.log(reservation);
   const {resid}  = router.query
-  // console.log(resid)
   const ref = collectionGroup(db, 'reservation')
   useEffect(()=> {
     const q = query(ref, where('uid', '==', resid ))
@@ -41,7 +39,6 @@ const Reservation =  ({recomms}: {recomms:string}) => {
   },[])
 
   const cancelReservation = async (roomId : string) => {
-    console.log(roomId)
     const roomRef = doc(db,'rooms', roomId)
     const batch = writeBatch(db)
     const reserveRef = auth.currentUser && doc(db, roomRef.path,'reservation',auth.currentUser?.uid)

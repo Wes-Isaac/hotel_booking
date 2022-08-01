@@ -28,7 +28,7 @@ const SignInButton = () => {
       toast.success('Sign in successful', { position: toast.POSITION.TOP_CENTER })
     }
     ).catch(err => {
-      console.log(err.message)
+      toast.error(`${err.message}`, { position: toast.POSITION.TOP_CENTER, hideProgressBar: true, autoClose: 800 })
     })
     router.push('/')
   
@@ -47,7 +47,9 @@ const writeToUser =async (user: User| null| undefined) => {
     const docSnap = await getDoc(userDoc)
     if(!docSnap.exists()) {  
       setDoc(userDoc, {isAdmin: false, uid: user?.uid})
-      .catch((error) => console.log('ERROR MESSAGE ',error.message))
+      .catch((error) => 
+      // console.log('ERROR MESSAGE ',error.message)
+      toast.error(`${error.message}`, { position: toast.POSITION.TOP_CENTER, hideProgressBar: true, autoClose: 800 }))
     } 
   }
 }

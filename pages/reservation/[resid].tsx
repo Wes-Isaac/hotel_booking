@@ -1,8 +1,8 @@
-import { collectionGroup, where, DocumentData, getDocs, onSnapshot, query, Timestamp } from "firebase/firestore"
+import { collectionGroup, where, DocumentData, getDocs, onSnapshot, query, Timestamp, writeBatch, DocumentReference, doc } from "firebase/firestore"
 import { GetServerSidePropsContext } from "next"
 import { useRouter } from "next/router"
 import { useContext, useEffect, useState } from "react"
-import { db } from "../../lib/config"
+import { auth, db } from "../../lib/config"
 import { UserContext } from "../../lib/context"
 
 export const getServerSideProps = async ({query:params}:GetServerSidePropsContext) => {
@@ -18,13 +18,15 @@ export const getServerSideProps = async ({query:params}:GetServerSidePropsContex
   return { props: { recomms: JSON.stringify(recomms) } }
 }
 
+
+
 const Reservation =  ({recomms}: {recomms:string}) => {
   const { admin } = useContext(UserContext)
   const router =  useRouter()
   const [ reservation, setReservation ] = useState<DocumentData[]>(JSON.parse(recomms))
   console.log(reservation);
   const {resid}  = router.query
-  console.log(resid)
+  // console.log(resid)
   const ref = collectionGroup(db, 'reservation')
   useEffect(()=> {
     const q = query(ref, where('uid', '==', resid ))
@@ -38,6 +40,16 @@ const Reservation =  ({recomms}: {recomms:string}) => {
     return unsubscribe
   },[])
 
+  const cancelReservation = async (roomId : string) => {
+    console.log(roomId)
+    const roomRef = doc(db,'rooms', roomId)
+    const batch = writeBatch(db)
+    const reserveRef = auth.currentUser && doc(db, roomRef.path,'reservation',auth.currentUser?.uid)
+    batch.update(roomRef, { reserved: false })
+    batch.delete(reserveRef!)
+    await batch.commit()
+  }
+
     return(
       <div>
       {reservation && reservation.map((res) => (
@@ -48,6 +60,7 @@ const Reservation =  ({recomms}: {recomms:string}) => {
               <h4>{res.price}</h4>
               <h4>from: {res.startDate}</h4>
               <h4>to:{res.endDate}</h4>
+              <button onClick={() => cancelReservation(res.roomId)}>Cancel Reservation</button>
             </div>
           </a>
         </div>

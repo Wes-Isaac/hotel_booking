@@ -7,14 +7,16 @@ import {DateObject, Value} from "react-multi-date-picker";
 import DatePicker from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import "react-multi-date-picker/styles/colors/teal.css"
+import Router, { useRouter } from "next/router";
 
 
 export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: DocumentReference }) => {
+  const router =  useRouter()
   const [ date, setDate ] = useState<Value>([
     new DateObject(),
     new DateObject().add(1, "day")
   ])
-  const [ dateArray, setDateArray ] = useState<string>()
+  const [ dateArray, setDateArray ] = useState<string>(JSON.stringify(date))
   
   const reserveRef = auth.currentUser && doc(db ,roomRef.path, 'reservation',auth.currentUser?.uid)
   const [reserveDoc] = useDocument(reserveRef)
@@ -31,9 +33,12 @@ export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: Docume
       title: room.title,
       startDate: Timestamp.fromMillis(startDate),
       endDate: Timestamp.fromMillis(endDate),
+      roomId: roomRef.id,
     })
     await batch.commit()
     toast.success(`reservation date ${date}`, { position: toast.POSITION.TOP_CENTER, hideProgressBar: true, autoClose: 800 })
+   
+    router.push(`reservation/${uid}`)
   }
 
   const cancelReservation = async () => {
@@ -61,7 +66,6 @@ export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: Docume
         maxDate={new DateObject().add(15, "days")} />
       <input type='submit' value='Reserve' />
     </form>
-  );
-
+  )
 }
 

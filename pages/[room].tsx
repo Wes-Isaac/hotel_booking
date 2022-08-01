@@ -12,6 +12,7 @@ import { UserContext } from '../lib/context'
 import { toast } from "react-toastify";
 import PostContent from "../components/PostContent";
 import { Reserve } from "../components/Reserve";
+import { appendFileSync } from "fs";
 
 
 interface Props  {
@@ -29,7 +30,8 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({ params }) 
   
   const docRef = doc(db,'rooms',room)
   const docSnap = await getDoc(docRef)
-  const post = JSON.stringify(docSnap.data())
+  const post = JSON.stringify({...docSnap.data(), roomId: docSnap.id})
+
   const path = docRef.path
   return {
     props: { post, path },
@@ -63,7 +65,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const [realTimeData] = useDocumentData(roomRef)
   const room = realTimeData || JSON.parse(post)
   const { admin } = useContext(UserContext)
-
+  // console.log(post)
 
   return (
     <div>

@@ -16,7 +16,7 @@ const Navbar = () => {
 
   return(
     <nav>
-      <div className="logo">
+      <div className="logo text-3xl text-green-600 p-2">
         <Link href="/"><a>LOGO</a></Link>
       </div>
 

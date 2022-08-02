@@ -1,12 +1,13 @@
 import { signOut } from "firebase/auth"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { useContext } from "react"
+import { useContext, useState } from "react"
+import { AlignRight, X, Logout, Calendar, FilePlus, Bed, Login } from "tabler-icons-react"
 import { auth } from "../lib/config"
 import { UserContext } from "../lib/context"
-import { AuthCheck } from "./AuthCheck"
 
 const Navbar = () => {
+  const [isNavOpen, setIsNavOpen] = useState(false)
   const{ user,admin } = useContext(UserContext)
   const router = useRouter()
   const logOut = () => {
@@ -15,37 +16,91 @@ const Navbar = () => {
   }
 
   return(
-    <nav>
-      <div className="logo text-3xl text-green-600 p-2">
-        <Link href="/"><a>LOGO</a></Link>
+    <>
+   
+    <nav className="  w-full px-4 top-0 bg-green-300 fixed box-sizing flex justify-between items-center">
+      <div className="w-full sm:hidden">
+        <div className=" sm:w-1/2 flex justify-between">
+          <Link href="/">
+            <a className="logo text-3xl"><Bed color="#7f5345" size={48}/></a></Link>
+          <AlignRight className="sm:hidden" size={48} color="#7f5345" onClick={() => setIsNavOpen((prev) => !prev)} />
+        </div>
+        <div className={isNavOpen ? "absolute z-10 inset-0 w-full h-screen bg-emerald-50 transition-transform -translate-x-0 duration-300" : "inset-0 absolute bg-emerald-50 transition-transform duration-200 translate-x-full"}>
+        <ul className="flex h-full flex-col justify-center items-center">  
+          <X className="absolute top-1 right-2" color="#7f5345" size={48} onClick={() => setIsNavOpen(false)} />
+          {user && (
+            <>
+            <li>
+              <Link href={`/${user.displayName}`}>
+                <img className="rounded-full my-1" src={user?.photoURL || '/favicon.ico'} />
+              </Link>
+            </li>
+            
+            <li className="mb-4 mt-14">
+              <Link href={`/reservation/${user.uid}`}><a className="flex items-center text-2xl text-stone-500 underline underline-offset-8 decoration-1"><Calendar className=" mt-1" />RESERVATION</a></Link>
+            </li>
+            {admin && (
+              <li className="my-4">
+                <Link href='./add'><a className="text-2xl flex items-center  text-stone-500 underline underline-offset-8 decoration-1"><FilePlus className="mt-1" />
+                  ADD ROOM</a></Link>
+              </li>
+            )}
+            <li className="my-4">
+              <button className="text-2xl text-red-400 flex items-center underline underline-offset-4 decoration-1" onClick={logOut} ><Logout className="mt-1" />SIGN OUT</button>
+            </li>
+            
+            </>
+          )}
+
+          {!user && (
+            <li>
+              <Link  href='./enter'><a className="text-3xl text-stone-500 flex items-center underline underline-offset-4 decoration-1"><Login className="mt-1" size={40} />Login</a></Link>
+            </li>
+          )}
+        </ul>
+        </div>
       </div>
 
-      {user && (
-        <>
-         <li>
-          <Link href={`/reservation/${user.uid}`}><a>Reservation</a></Link>
-         </li>
-         <li>
-          <button onClick={logOut} >Sign out</button>
-         </li>
-         <li>
-          <Link href={`/${user.displayName}`}>
-            <img src={user?.photoURL || '/favicon.ico'} />
-          </Link>
-         </li>
-         {admin && (
-          <li>
-            <Link href='./add'><a>Add Room</a></Link>
-          </li>
-         )}
-        </>
-      )}
 
-       {!user && (
-        <Link href='./enter'>Login</Link>
-       )}
+      <div className="w-screen hidden sm:flex sm:justify-between sm:items-center">
+        <div className="">
+          <Link href="/">
+            <a className="logo text-3xl"><Bed color="#7f5345" size={48}/></a></Link>
+        </div>
+        <ul className="flex justify-center items-center">
+          {user && (
+            <>
+            {admin && (
+              <li className=" mx-1">
+                <Link href='./add'><a className=" text-sm flex items-center  text-stone-500 underline underline-offset-4 decoration-1"><FilePlus className="mt-1" />
+                  ADD ROOM</a></Link>
+              </li>
+            )}
+            <li className=" mx-1">
+              <Link href={`/reservation/${user.uid}`}><a className="flex items-center text-sm text-stone-500 underline underline-offset-4 decoration-1"><Calendar className=" mt-1" />RESERVATION</a></Link>
+            </li>
+            <li className="mx-1">
+             <button className="text-sm text-red-400 flex items-center underline underline-offset-4 decoration-1" onClick={logOut} ><Logout className="mt-1" />SIGN OUT</button>
+            </li>
+            <li className=" mx-1">
+              <Link href={`/${user.displayName}`}>
+                <img className="rounded-full h-8 w-auto" src={user?.photoURL || '/favicon.ico'} />
+              </Link>
+            </li>
+            
+            </>
+          )}
 
+          {!user && (
+            <li>
+              <Link href='./enter'>Login</Link>
+            </li>
+          )}
+        </ul>
+      </div>
     </nav>
+    <div className="mb-16" />
+    </>
   )
 }
 

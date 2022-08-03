@@ -26,7 +26,7 @@ const Navbar = () => {
           <AlignRight className="sm:hidden" size={48} color="#7f5345" onClick={() => setIsNavOpen((prev) => !prev)} />
         </div>
         <div className={isNavOpen ? "absolute z-10 inset-0 w-full h-screen bg-white transition-transform -translate-x-0 duration-300" : "inset-0 absolute bg-white transition-transform duration-200 translate-x-full"}>
-        <ul className="flex h-full flex-col justify-center items-center">  
+        <ul className="flex h-full flex-col justify-center items-center" onClick={() => setIsNavOpen(false)} >  
           <X className="absolute top-1 right-2" color="#7f5345" size={48} onClick={() => setIsNavOpen(false)} />
           {user && (
             <>
@@ -41,7 +41,7 @@ const Navbar = () => {
             </li>
             {admin && (
               <li className="my-4">
-                <Link href='./add'><a className="text-2xl flex items-center  text-stone-500 underline underline-offset-8 decoration-1"><FilePlus className="mt-1" />
+                <Link href='/add'><a className="text-2xl flex items-center  text-stone-500 underline underline-offset-8 decoration-1"><FilePlus className="mt-1" />
                   ADD ROOM</a></Link>
               </li>
             )}

@@ -21,7 +21,7 @@ export const getServerSideProps = async ({query:params}:GetServerSidePropsContex
 
 
 const Reservation =  ({recomms}: {recomms:string}) => {
-  const { admin } = useContext(UserContext)
+  const { user, admin } = useContext(UserContext)
   const router =  useRouter()
   const [ reservation, setReservation ] = useState<DocumentData[]>(JSON.parse(recomms))
   const {resid}  = router.query
@@ -54,9 +54,10 @@ const Reservation =  ({recomms}: {recomms:string}) => {
           <div key={Math.random()} className="my-6 p-3 bg-white rounded-t-2xl" >
             <h1 className="my-1 text-lg font-medium">Room: {res.title}</h1>
             <h4 className="my-1 text-lg font-semibold">Price: {res.price}</h4>
-            <h4 className="my-1">from: {res.startDate}</h4>
-            <h4 className="my-1">to: {res.endDate}</h4>
-            <button className="my-2 p-1 text-lg cursor-pointer bg-white font-semibold border-2 border-yellow-900 rounded-md" onClick={() => cancelReservation(res.roomId)}>Cancel Reservation</button>
+            <h4 className="my-1">From: {res.startDate}</h4>
+            <h4 className="my-1">To: {res.endDate}</h4>
+            {admin && <h4 className="my-1">By: {res.uid}</h4>}
+            {res.uid == user?.uid && <button className="my-2 p-1 text-lg cursor-pointer bg-white font-semibold border-2 border-yellow-900 rounded-md" onClick={() => cancelReservation(res.roomId)}>Cancel Reservation</button>}
           </div>
       )
       )}

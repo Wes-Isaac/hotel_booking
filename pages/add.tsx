@@ -3,8 +3,8 @@ import UploadForm from "../components/UploadForm";
 
 const add:NextPage = () => {
   return(
-    <div>
-      <h1>Upload Form</h1>
+    <div className=" w-[90%] mx-auto">
+      <h1 className="text-2xl font-medium underline underline-offset-8 decoration-1 my-8">Upload Form</h1>
       <UploadForm />
     </div>
   )

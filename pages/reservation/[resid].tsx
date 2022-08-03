@@ -48,17 +48,15 @@ const Reservation =  ({recomms}: {recomms:string}) => {
   }
 
     return(
-      <div className="">
-        <h2 className="text-2xl font-medium">Reservations</h2>
+      <div className="flex flex-col w-4/5  mx-auto">
+        <h2 className="text-2xl font-medium underline underline-offset-8 decoration-1">Reservations</h2>
         {reservation && reservation.map((res) => (
-          <div key={Math.random()}>
-              <div className="ind-rm" >
-                <h1>{res.title}</h1>
-                <h4>{res.price}</h4>
-                <h4>from: {res.startDate}</h4>
-                <h4>to:{res.endDate}</h4>
-                <button onClick={() => cancelReservation(res.roomId)}>Cancel Reservation</button>
-              </div>
+          <div key={Math.random()} className="my-6 p-3 bg-white rounded-t-2xl" >
+            <h1 className="my-1 text-lg font-medium">Room: {res.title}</h1>
+            <h4 className="my-1 text-lg font-semibold">Price: {res.price}</h4>
+            <h4 className="my-1">from: {res.startDate}</h4>
+            <h4 className="my-1">to: {res.endDate}</h4>
+            <button className="my-2 p-1 text-lg cursor-pointer bg-white font-semibold border-2 border-yellow-900 rounded-md" onClick={() => cancelReservation(res.roomId)}>Cancel Reservation</button>
           </div>
       )
       )}

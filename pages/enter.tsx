@@ -18,7 +18,6 @@ const Enter = () => {
   )
 }
 
-
 const SignInButton = () => {
   const router = useRouter()
   const signInwithGoogle = async () => {
@@ -48,7 +47,6 @@ const writeToUser =async (user: User| null| undefined) => {
     if(!docSnap.exists()) {  
       setDoc(userDoc, {isAdmin: false, uid: user?.uid})
       .catch((error) => 
-      // console.log('ERROR MESSAGE ',error.message)
       toast.error(`${error.message}`, { position: toast.POSITION.TOP_CENTER, hideProgressBar: true, autoClose: 800 }))
     } 
   }

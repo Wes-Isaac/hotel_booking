@@ -5,12 +5,13 @@ import { DocumentData } from "firebase/firestore"
 
  
   return (
-    <div>
-      <h1>PostContent</h1>
-      <Image src={room.image}
-         width={100}
-         height={100}/>
-      <h2>{room.title}</h2>
+    <div className=" flex flex-col">
+      <div className="relative">
+        <Image src={room.image}
+          width={100}
+          height={100}/>
+      </div>
+      <h2>Room: {room.title}</h2>
       <h2>price: {room.price}</h2>
 
     </div>

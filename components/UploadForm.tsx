@@ -38,7 +38,7 @@ const Uploader =(data: FieldValues) => {
       <input className="my-1 p-2 rounded-tr-lg" { ...register("title", { required: true, minLength: 4, maxLength: 20 }) } type="text" id="title" name="title" placeholder="Title" required />
       <label className="my-2" htmlFor="price">Price:</label>
       <input className="my-1 p-2 rounded-tr-lg" { ...register("price") } type="text" id="price" name="price" placeholder="Price" required />
-      <input className="my-6 p-1 text-lg cursor-pointer bg-white font-semibold  rounded-md hover:border-2 border-yellow-900" type="submit" value="Submit" onClick={() => {
+      <input className="my-6 p-2 text-lg cursor-pointer bg-white font-semibold  rounded-tr-lg hover:border-2 border-yellow-900" type="submit" value="Submit" onClick={() => {
           setValue("image", downloadURL);
         }} />
     </form>

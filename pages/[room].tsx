@@ -67,27 +67,23 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const { admin } = useContext(UserContext)
 
   return (
-    <div>
+    <div className=" w-[90%] mx-auto flex flex-col">
       <h1>Individual room</h1>
       <PostContent room={room} />
       <AuthCheck>
       <>
+      <div>
+
         <p>
             <strong>{room.heartCount || 0} 🤍</strong>
           </p>
         <Heart roomRef={roomRef} />
         <Reserve room={room} roomRef={roomRef} />
+      </div>
       </>
       </AuthCheck>
 
-      {admin && (
-        <>
-          <Link href='/edit'>
-            <button className="btn-blue">Edit Room</button>
-          </Link>
-          <DeletePostButton roomRef={roomRef}/>
-        </>
-      )}
+      {admin && (<DeletePostButton roomRef={roomRef}/>)}
     </div>
     
   )

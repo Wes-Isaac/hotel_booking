@@ -1,4 +1,4 @@
-import { collectionGroup, where, DocumentData, getDocs, onSnapshot, query, Timestamp, writeBatch, DocumentReference, doc } from "firebase/firestore"
+import { collectionGroup, where, DocumentData, getDocs, onSnapshot, query, writeBatch, doc } from "firebase/firestore"
 import { GetServerSidePropsContext } from "next"
 import { useRouter } from "next/router"
 import { useContext, useEffect, useState } from "react"
@@ -48,22 +48,20 @@ const Reservation =  ({recomms}: {recomms:string}) => {
   }
 
     return(
-      <div>
-      {reservation && reservation.map((res) => (
-        <div key={Math.random()}>
-          <a>
-            <div className="ind-rm" >
-              <h1>{res.title}</h1>
-              <h4>{res.price}</h4>
-              <h4>from: {res.startDate}</h4>
-              <h4>to:{res.endDate}</h4>
-              <button onClick={() => cancelReservation(res.roomId)}>Cancel Reservation</button>
-            </div>
-          </a>
-        </div>
+      <div className="">
+        <h2 className="text-2xl font-medium">Reservations</h2>
+        {reservation && reservation.map((res) => (
+          <div key={Math.random()}>
+              <div className="ind-rm" >
+                <h1>{res.title}</h1>
+                <h4>{res.price}</h4>
+                <h4>from: {res.startDate}</h4>
+                <h4>to:{res.endDate}</h4>
+                <button onClick={() => cancelReservation(res.roomId)}>Cancel Reservation</button>
+              </div>
+          </div>
       )
       )}
-      Reservations
     </div>
   )
 

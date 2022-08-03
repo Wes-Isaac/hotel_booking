@@ -26,9 +26,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         draggable
         pauseOnHover
         />
-      <Navbar />
-      <Component {...pageProps} />
-      <Footer />
+      <div className='h-screen flex flex-col'>
+        <Navbar />
+        <div className='flex-1' >
+          <Component {...pageProps} />
+        </div>
+        <Footer />
+      </div>
     </UserProvider>
   )
 }

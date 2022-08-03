@@ -1,7 +1,5 @@
 import { collection, query, orderBy, limit, FieldValue, getDocs, startAfter,  Timestamp, where } from 'firebase/firestore'
-import type { NextPage, GetServerSideProps } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
+import type { GetServerSideProps } from 'next'
 import { useState } from 'react'
 import Loader from '../components/Loader'
 import { PostFeed } from '../components/PostFeed'
@@ -57,13 +55,16 @@ const Home = ({ rooms }: { rooms: string }) => {
   }
 
   return (
-    <main>
+    <main >
       <PostFeed posts={posts}  />
-      {!loading && !postsEnd && <button onClick={getMorePosts}>Load more</button>}
+      {!loading && !postsEnd &&
+      <button className='m-4 p-2 text-lg cursor-pointer bg-white font-semibold border-2 border-yellow-900 rounded-md' onClick={getMorePosts}>
+        Load more
+      </button>}
 
       <Loader show={loading} />
 
-      {postsEnd && 'You have reached the end!'}
+      {postsEnd && <p className='text-lg font-medium my-3 flex justify-center'>You have reached the end!</p>}
 
     </main>
   )

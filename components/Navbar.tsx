@@ -18,14 +18,14 @@ const Navbar = () => {
   return(
     <>
    
-    <nav className="  w-full px-4 top-0 bg-white fixed box-sizing flex border-b-2 justify-between items-center">
+    <nav className=" w-full px-4 top-0 z-30 bg-white fixed box-sizing flex border-b-2 justify-between items-center">
       <div className="w-full sm:hidden">
-        <div className=" sm:w-1/2 flex justify-between">
+        <div className=" bg-white sm:w-1/2 flex justify-between">
           <Link href="/">
             <a className="logo text-3xl"><Bed color="#7f5345" size={48}/></a></Link>
           <AlignRight className="sm:hidden" size={48} color="#7f5345" onClick={() => setIsNavOpen((prev) => !prev)} />
         </div>
-        <div className={isNavOpen ? "absolute z-10 inset-0 w-full h-screen bg-emerald-50 transition-transform -translate-x-0 duration-300" : "inset-0 absolute bg-emerald-50 transition-transform duration-200 translate-x-full"}>
+        <div className={isNavOpen ? "absolute z-10 inset-0 w-full h-screen bg-white transition-transform -translate-x-0 duration-300" : "inset-0 absolute bg-white transition-transform duration-200 translate-x-full"}>
         <ul className="flex h-full flex-col justify-center items-center">  
           <X className="absolute top-1 right-2" color="#7f5345" size={48} onClick={() => setIsNavOpen(false)} />
           {user && (

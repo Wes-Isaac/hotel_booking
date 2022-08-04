@@ -67,20 +67,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const { admin } = useContext(UserContext)
 
   return (
-    <div className=" w-[90%] mx-auto flex flex-col">
-      <h1>Individual room</h1>
+    <div className=" h-[80vh] w-[90%] mx-auto flex flex-col sm:w-[60vw] sm:flex-row sm:justify-center sm:items-center sm:gap-10">
       <PostContent room={room} />
       <AuthCheck>
-      <>
-      <div>
-
-        <p>
-            <strong>{room.heartCount || 0} 🤍</strong>
-          </p>
-        <Heart roomRef={roomRef} />
+      <div className=" bg-slate-50 rounded-tr-2xl p-4 mt-6 drop-shadow-lg">
+        <div className="flex gap-1 text-lg sm:mt-2">
+          <strong>{room.heartCount || 0}</strong>
+          <Heart roomRef={roomRef} />
+        </div>
         <Reserve room={room} roomRef={roomRef} />
       </div>
-      </>
       </AuthCheck>
 
       {admin && (<DeletePostButton roomRef={roomRef}/>)}

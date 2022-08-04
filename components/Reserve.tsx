@@ -1,4 +1,4 @@
-import { doc, DocumentData, DocumentReference, increment, Timestamp, writeBatch } from "firebase/firestore"
+import { doc, DocumentData, DocumentReference, Timestamp, writeBatch } from "firebase/firestore"
 import { toast } from "react-toastify";
 import { useDocument } from 'react-firebase-hooks/firestore'
 import { db,auth } from "../lib/config"
@@ -7,7 +7,7 @@ import {DateObject, Value} from "react-multi-date-picker";
 import DatePicker from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import "react-multi-date-picker/styles/colors/teal.css"
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 
 export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: DocumentReference }) => {
@@ -64,7 +64,7 @@ export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: Docume
         range
         minDate={new DateObject()}
         maxDate={new DateObject().add(15, "days")} />
-      <input type='submit' value='Reserve' />
+      <input className="ml-4 p-1 text-md cursor-pointer bg-white font-semibold  rounded-tr-lg border-2 border-yellow-900 sm:ml-0 sm:mt-2 " type='submit' value='Reserve' />
     </form>
   )
 }

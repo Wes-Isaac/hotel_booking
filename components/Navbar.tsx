@@ -31,9 +31,7 @@ const Navbar = () => {
           {user && (
             <>
             <li>
-              <Link href={`/${user.displayName}`}>
                 <img className="rounded-full my-1" src={user?.photoURL || '/favicon.ico'} />
-              </Link>
             </li>
             
             <li className="mb-4 mt-14">
@@ -83,9 +81,7 @@ const Navbar = () => {
              <button className="text-sm text-red-400 flex items-center underline underline-offset-4 decoration-1" onClick={logOut} ><Logout className="mt-1" />SIGN OUT</button>
             </li>
             <li className=" mx-1">
-              <Link href={`/${user.displayName}`}>
                 <img className="rounded-full h-8 w-auto" src={user?.photoURL || '/favicon.ico'} />
-              </Link>
             </li>
             
             </>

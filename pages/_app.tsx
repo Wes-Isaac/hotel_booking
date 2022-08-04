@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
       <div className='h-screen flex flex-col'>
         <Navbar />
-        <div className='flex-1' >
+        <div className='flex-1 mb-14' >
           <Component {...pageProps} />
         </div>
         <Footer />

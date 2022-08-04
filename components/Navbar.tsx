@@ -23,11 +23,11 @@ const Navbar = () => {
         <div className=" bg-white sm:w-1/2 flex justify-between">
           <Link href="/">
             <a className="logo text-3xl"><Bed color="#7f5345" size={48}/></a></Link>
-          <AlignRight className="sm:hidden" size={48} color="#7f5345" onClick={() => setIsNavOpen((prev) => !prev)} />
+          <AlignRight className="sm:hidden cursor-pointer" size={48} color="#7f5345" onClick={() => setIsNavOpen((prev) => !prev)} />
         </div>
         <div className={isNavOpen ? "absolute z-10 inset-0 w-full h-screen bg-white transition-transform -translate-x-0 duration-300" : "inset-0 absolute bg-white transition-transform duration-200 translate-x-full"}>
         <ul className="flex h-full flex-col justify-center items-center" onClick={() => setIsNavOpen(false)} >  
-          <X className="absolute top-1 right-2" color="#7f5345" size={48} onClick={() => setIsNavOpen(false)} />
+          <X className="absolute top-1 right-2 cursor-pointer" color="#7f5345" size={48} onClick={() => setIsNavOpen(false)} />
           {user && (
             <>
             <li>
@@ -52,7 +52,7 @@ const Navbar = () => {
 
           {!user && (
             <li>
-              <Link  href='./enter'><a className="text-3xl text-stone-500 flex items-center underline underline-offset-4 decoration-1"><Login className="mt-1" size={40} />Login</a></Link>
+              <Link  href='./enter'><a className="text-3xl text-stone-500 flex items-center underline underline-offset-4 decoration-1"><Login className="mt-1" size={40} />Sign in</a></Link>
             </li>
           )}
         </ul>
@@ -68,28 +68,27 @@ const Navbar = () => {
         <ul className="flex justify-center items-center">
           {user && (
             <>
-            {admin && (
+              {admin && (
+                <li className=" mx-1">
+                  <Link href='./add'><a className=" text-sm flex items-center  text-stone-500 underline underline-offset-4 decoration-1"><FilePlus className="mt-1" />
+                    ADD ROOM</a></Link>
+                </li>
+              )}
               <li className=" mx-1">
-                <Link href='./add'><a className=" text-sm flex items-center  text-stone-500 underline underline-offset-4 decoration-1"><FilePlus className="mt-1" />
-                  ADD ROOM</a></Link>
+                <Link href={`/reservation/${user.uid}`}><a className="flex items-center text-sm text-stone-500 underline underline-offset-4 decoration-1"><Calendar className=" mt-1" />RESERVATION</a></Link>
               </li>
-            )}
-            <li className=" mx-1">
-              <Link href={`/reservation/${user.uid}`}><a className="flex items-center text-sm text-stone-500 underline underline-offset-4 decoration-1"><Calendar className=" mt-1" />RESERVATION</a></Link>
-            </li>
-            <li className="mx-1">
-             <button className="text-sm text-red-400 flex items-center underline underline-offset-4 decoration-1" onClick={logOut} ><Logout className="mt-1" />SIGN OUT</button>
-            </li>
-            <li className=" mx-1">
-                <img className="rounded-full h-8 w-auto" src={user?.photoURL || '/favicon.ico'} />
-            </li>
-            
+              <li className="mx-1">
+              <button className="text-sm text-red-400 flex items-center underline underline-offset-4 decoration-1" onClick={logOut} ><Logout className="mt-1" />SIGN OUT</button>
+              </li>
+              <li className=" mx-1">
+                  <img className="rounded-full h-8 w-auto" src={user?.photoURL || '/avatar.png'} />
+              </li>
             </>
           )}
 
           {!user && (
             <li>
-              <Link href='./enter'>Login</Link>
+              <Link  href='./enter'><a className="text-lg text-stone-500 flex items-center underline underline-offset-4 decoration-1"><Login className="mt-1" size={30} />Sign in</a></Link>
             </li>
           )}
         </ul>

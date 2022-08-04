@@ -12,7 +12,6 @@ import { UserContext } from '../lib/context'
 import { toast } from "react-toastify";
 import PostContent from "../components/PostContent";
 import { Reserve } from "../components/Reserve";
-import { appendFileSync } from "fs";
 import Metatags from "../components/Metatags";
 
 
@@ -72,16 +71,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
       <PostContent room={room} />
       <Metatags title={room.title}/>
       <AuthCheck>
-      <div className=" bg-slate-50 rounded-tr-2xl p-4 mt-6 drop-shadow-lg">
-        <div className="flex gap-1 text-lg sm:mt-2">
-          <strong>{room.heartCount || 0}</strong>
-          <Heart roomRef={roomRef} />
+        <div className=" bg-slate-50 rounded-tr-2xl p-4 my-6 drop-shadow-lg">
+          <div className="flex gap-1 text-lg sm:mt-2">
+            <strong>{room.heartCount || 0}</strong>
+            <Heart roomRef={roomRef} />
+          </div>
+          <Reserve room={room} roomRef={roomRef} />
+          {admin && (<DeletePostButton roomRef={roomRef}/>)}
         </div>
-        <Reserve room={room} roomRef={roomRef} />
-      </div>
       </AuthCheck>
 
-      {admin && (<DeletePostButton roomRef={roomRef}/>)}
     </div>
     
   )
@@ -95,13 +94,13 @@ function DeletePostButton({ roomRef }: {roomRef: DocumentReference<DocumentData>
     const doIt = confirm('are you sure!')
     if (doIt) {
       await deleteDoc(roomRef)
-      router.push('/admin')
+      router.push('/')
       toast('Room annihilated ', { icon: '🗑️' })
     }
   }
 
   return (
-    <button className="btn-red" onClick={deletePost}>
+    <button className="ml-4 p-1 px-2 text-md cursor-pointer bg-white font-semibold  rounded-tr-lg border-2 border-yellow-900 sm:ml-0 sm:mt-2 " onClick={deletePost}>
       Delete
     </button>
   )

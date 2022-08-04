@@ -25,7 +25,7 @@ const Uploader =(data: FieldValues) => {
     })
   } else {
     toast.error('Please select an Image',{ position: toast.POSITION.TOP_CENTER })
-  }
+    }
   }
   
 

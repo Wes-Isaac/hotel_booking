@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export default function Custom404() {
+ const Custom404 =() => {
   return (
     <main className='m-4'>
       <h1 className='my-4 text-lg font-semibold'>404 - That page does not seem to exist...</h1>
@@ -18,3 +18,5 @@ export default function Custom404() {
     </main>
   );
 }
+
+export default Custom404

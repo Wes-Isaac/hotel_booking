@@ -5,7 +5,6 @@ import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import { UserContext } from '../lib/context'
 import { auth, db, googleAuthProvider, signWithPopup } from '../lib/config'
-import { redirect } from 'next/dist/server/api-utils'
 
 const Enter = () => {
   const { user, admin } = useContext(UserContext);
@@ -13,7 +12,6 @@ const Enter = () => {
   return (
     <div>
         { !user && <SignInButton /> }
-        <h1>{admin? "Admin" : "User"}</h1>   
     </div>
   )
 }
@@ -34,7 +32,7 @@ const SignInButton = () => {
   }
 
   return(
-    <button onClick={signInwithGoogle}>Sign in with Google</button>
+    <button className=' m-4 p-4 bg-white text-lg drop-shadow-md flex items-center' onClick={signInwithGoogle}><img className=" w-6 mx-1" src='/google.png'/> Sign in with Google</button>
   )
 
 }

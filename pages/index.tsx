@@ -2,6 +2,7 @@ import { collection, query, orderBy, limit, FieldValue, getDocs, startAfter,  Ti
 import type { GetServerSideProps } from 'next'
 import { useState } from 'react'
 import Loader from '../components/Loader'
+import Metatags from '../components/Metatags'
 import { PostFeed } from '../components/PostFeed'
 import { db, timestamp } from '../lib/config'
 
@@ -56,6 +57,7 @@ const Home = ({ rooms }: { rooms: string }) => {
 
   return (
     <main >
+      <Metatags title='Home Page'/>
       <PostFeed posts={posts}  />
       {!loading && !postsEnd &&
       <button className='m-4 p-2 text-lg cursor-pointer bg-white font-semibold border-2 border-yellow-900 rounded-md' onClick={getMorePosts}>

@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import PostContent from "../components/PostContent";
 import { Reserve } from "../components/Reserve";
 import { appendFileSync } from "fs";
+import Metatags from "../components/Metatags";
 
 
 interface Props  {
@@ -69,6 +70,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   return (
     <div className=" h-[80vh] w-[90%] mx-auto flex flex-col sm:w-[60vw] sm:flex-row sm:justify-center sm:items-center sm:gap-10">
       <PostContent room={room} />
+      <Metatags title={room.title}/>
       <AuthCheck>
       <div className=" bg-slate-50 rounded-tr-2xl p-4 mt-6 drop-shadow-lg">
         <div className="flex gap-1 text-lg sm:mt-2">

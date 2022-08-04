@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 import { useContext, useEffect, useState } from "react"
 import { auth, db } from "../../lib/config"
 import { UserContext } from "../../lib/context"
+import Metatags from "../../components/Metatags"
 
 export const getServerSideProps = async ({query:params}:GetServerSidePropsContext) => {
   const ref = collectionGroup(db, 'reservation')
@@ -49,6 +50,7 @@ const Reservation =  ({recomms}: {recomms:string}) => {
 
     return(
       <div className="flex flex-col w-4/5  mx-auto">
+        <Metatags title='Reservation' />
         <h2 className="text-2xl font-medium underline underline-offset-8 decoration-1">Reservations</h2>
         {reservation && reservation.map((res) => (
           <div key={Math.random()} className="my-6 p-3 bg-white rounded-t-2xl" >

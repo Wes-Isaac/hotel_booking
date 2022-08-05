@@ -1,7 +1,8 @@
-# Space-Travelers-Hub
-- In this task, we will be working with the real live data from the SpaceX API. Our task is to build a web application for a company that provides commercial and scientific space travel services. The application will allow users to book rockets and join selected space missions.
+# Hotel Booking
+- In this project I made a simple reservation web app it uses firebase authentication let's users sign in, reserve, cancel reservation, star/ cancel star the room.
 
 ## Built With
+- Typescript
 - Next
 - React
 - Firebase

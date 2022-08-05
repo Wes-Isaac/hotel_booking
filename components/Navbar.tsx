@@ -1,5 +1,6 @@
 import { signOut } from "firebase/auth"
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter } from "next/router"
 import { useContext, useState } from "react"
 import { AlignRight, X, Logout, Calendar, FilePlus, Bed, Login } from "tabler-icons-react"
@@ -31,7 +32,7 @@ const Navbar = () => {
           {user && (
             <>
             <li>
-                <img className="rounded-full my-1" src={user?.photoURL || '/favicon.ico'} />
+            <Image className="rounded-full h-8 w-auto" height={80} width={80} src={user?.photoURL || '/avatar.png'} priority />
             </li>
             
             <li className="mb-4 mt-14">
@@ -81,7 +82,7 @@ const Navbar = () => {
               <button className="text-sm text-red-400 flex items-center underline underline-offset-4 decoration-1" onClick={logOut} ><Logout className="mt-1" />SIGN OUT</button>
               </li>
               <li className=" mx-1">
-                  <img className="rounded-full h-8 w-auto" src={user?.photoURL || '/avatar.png'} />
+                  <Image className="rounded-full h-8 w-auto" height={40} width={40} src={user?.photoURL || '/avatar.png'} priority />
               </li>
             </>
           )}

@@ -9,7 +9,7 @@ export const PostFeed = ({ posts }: {posts: RoomData[]}) => {
       {posts && posts.map((post) => (
         <Link href={`/${post.id}`} key={post.id}>
           <a className=" my-3 w-full">
-            <div className="bg-white flex flex-col items-center w-full  rounded-t-2xl py-2 drop-shadow-2xl" >
+            <div className="bg-white flex flex-col items-center w-full  rounded-t-2xl py-2 drop-shadow-2xl">
              <div className="relative w-40 h-40  sm:w-56 sm:h-56 mx-auto" >
                 <Image src={post.image} layout='fill' className="sm:object-scale-down"/>
               </div>

@@ -1,4 +1,4 @@
-import { doc, DocumentData, DocumentReference, Timestamp, writeBatch } from "firebase/firestore"
+import { doc, DocumentData, DocumentReference, collection, Timestamp, writeBatch, FieldValue } from "firebase/firestore"
 import { toast } from "react-toastify";
 import { useDocument } from 'react-firebase-hooks/firestore'
 import { db,auth } from "../lib/config"
@@ -10,35 +10,47 @@ import "react-multi-date-picker/styles/colors/teal.css"
 import { useRouter } from "next/router";
 
 
-export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: DocumentReference }) => {
+export const Reserve =  ({ room, roomRef, reservedDate }: { room:DocumentData, roomRef: DocumentReference, reservedDate: number[][] }) => {
   const router =  useRouter()
   const [ date, setDate ] = useState<Value>([
     new DateObject(),
     new DateObject().add(1, "day")
   ])
-  const [ dateArray, setDateArray ] = useState<string>(JSON.stringify(date))
-  
+
   const reserveRef = auth.currentUser && doc(db ,roomRef.path, 'reservation',auth.currentUser?.uid)
   const [reserveDoc] = useDocument(reserveRef)
 
   const reserve = async (e: FormEvent) => {
     e.preventDefault()
-    const [startDate, endDate] = dateArray!.replace(/[[\]]/g, '').split(',').map(num=>parseInt(num))
-    const uid = auth.currentUser?.uid
-    const batch = writeBatch(db)
-    batch.update(roomRef, { reserved: true })
-    batch.set(reserveRef!, {
-      uid,
-      price: room.price,
-      title: room.title,
-      startDate: Timestamp.fromMillis(startDate),
-      endDate: Timestamp.fromMillis(endDate),
-      roomId: roomRef.id,
+    const allReservation = collection(db ,roomRef.path, 'reservation')
+    const [startDate, endDate] = JSON.stringify(date).replace(/[[\]]/g, '').split(',').map(num=>parseInt(num))
+    let isReserved = false
+    reservedDate.forEach((res) => {
+      if(startDate > res[0] && startDate < res[1]) {
+          isReserved = true
+      } 
     })
-    await batch.commit()
-    toast.success(`reservation date ${date}`, { position: toast.POSITION.TOP_CENTER, hideProgressBar: true, autoClose: 800 })
-   
-    router.push(`reservation/${uid}`)
+  
+
+    if(!isReserved){ 
+      const uid = auth.currentUser?.uid
+      const batch = writeBatch(db)
+      batch.set(reserveRef!, {
+        uid,
+        price: room.price,
+        title: room.title,
+        startDate: Timestamp.fromMillis(startDate),
+        endDate: Timestamp.fromMillis(endDate),
+        roomId: roomRef.id,
+      })
+      await batch.commit()
+      toast.success(`reservation date ${date}`, { position: toast.POSITION.TOP_CENTER, hideProgressBar: true, autoClose: 800 })
+    
+      // router.push(`reservation/${uid}`)
+    } else {
+      toast.error('PLEASE PICK ANOTHER DATE', { position: toast.POSITION.TOP_CENTER, hideProgressBar: true, autoClose: 800 })
+    }
+
   }
 
   const cancelReservation = async () => {
@@ -57,13 +69,11 @@ export const Reserve =  ({ room, roomRef }: { room:DocumentData, roomRef: Docume
         required
         render={<InputIcon />}
         value={date}
-        onChange={dateObj => {
-          setDate
-          setDateArray(JSON.stringify(dateObj))
-        }}
+        onChange={setDate}
         range
         minDate={new DateObject()}
-        maxDate={new DateObject().add(15, "days")} />
+        maxDate={new DateObject().add(15, "days")}
+        />
       <input className="ml-4 p-1 text-md cursor-pointer bg-white font-semibold  rounded-tr-lg border-2 border-yellow-900 sm:ml-0 sm:mt-2 " type='submit' value='Reserve' />
     </form>
   )

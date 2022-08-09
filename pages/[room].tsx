@@ -2,9 +2,9 @@ import Link from "next/link"
 import { useRouter } from "next/router";
 import {  useContext } from 'react'
 import type { GetStaticProps, GetStaticPaths } from "next"
-import { useDocumentData } from "react-firebase-hooks/firestore";
+import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import { ParsedUrlQuery } from "querystring"
-import { collection, doc, DocumentData, DocumentReference, getDoc, getDocs, query, deleteDoc } from "firebase/firestore"
+import { collection, doc, DocumentData, DocumentReference, getDoc, getDocs, query, deleteDoc, FieldValue } from "firebase/firestore"
 import { db } from "../lib/config"
 import { Heart } from '../components/Heart';
 import { AuthCheck } from "../components/AuthCheck";
@@ -17,7 +17,8 @@ import Metatags from "../components/Metatags";
 
 interface Props  {
   post: string,
-  path: string
+  path: string,
+  resPath: string,
 }
 
 interface Params extends ParsedUrlQuery {
@@ -29,12 +30,25 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({ params }) 
   const {room}  = params!
   
   const docRef = doc(db,'rooms',room)
+  const resRef = collection(db ,docRef.path, 'reservation')
+  const allRes = await getDocs(resRef)
+  const resPath = resRef.path
+  // console.log(resPath)
+
+  // allRes.forEach(ref => {
+  //   const startDate:number = ref.data().startDate.toMillis()
+  //   const endDate:number = ref.data().endDate.toMillis()
+  //   console.log(ref.data().title)
+  //   console.log(ref.data().uid)   
+  // })
+
+
   const docSnap = await getDoc(docRef)
   const post = JSON.stringify({...docSnap.data(), roomId: docSnap.id})
-
+ 
   const path = docRef.path
   return {
-    props: { post, path },
+    props: { post, path, resPath },
     revalidate: 40,
   }
 
@@ -59,8 +73,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 
- const Room = ({ post, path }: {post: string, path:string}) => {
-
+ const Room = ({ post, path, resPath }: {post: string, path:string, resPath:string}) => {
+  const colRef = collection(db, resPath)
+  const [realTimeResData] = useCollectionData(collection(db, resPath))
+  let reservedDate: number[][] = []
+  realTimeResData?.forEach(res => {
+    console.log(res.startDate.toDate().toDateString())
+    reservedDate.push([res.startDate.toMillis(), res.endDate.toMillis()])
+  })
   const roomRef = doc(db, path)
   const [realTimeData] = useDocumentData(roomRef)
   const room = realTimeData || JSON.parse(post)
@@ -76,7 +96,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
             <strong>{room.heartCount || 0}</strong>
             <Heart roomRef={roomRef} />
           </div>
-          <Reserve room={room} roomRef={roomRef} />
+          <Reserve room={room} roomRef={roomRef} reservedDate={reservedDate} />
           {admin && (<DeletePostButton roomRef={roomRef}/>)}
         </div>
       </AuthCheck>

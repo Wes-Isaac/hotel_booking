@@ -10,7 +10,7 @@ export interface RoomData {
   image: string;
   reserved: boolean;
   title: string;
-  price: string;
+  price: number;
   createdAt: FieldValue;
   updatedAt: FieldValue;
   id: string
@@ -18,7 +18,7 @@ export interface RoomData {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const colRef = collection(db, 'rooms')
-  const q = query(colRef,where("reserved","==",false), orderBy("price"), limit(4))
+  const q = query(colRef, orderBy("price"), limit(4))
   let rooms: RoomData[] = []
 
   const queryDocs = await getDocs(q)
@@ -41,9 +41,8 @@ const Home = ({ rooms }: { rooms: string }) => {
   const getMorePosts = async () => {
     setLoading(true)
     const last = posts[posts.length - 1]
-    const cursor = last.createdAt
     const colRef = collection(db, 'rooms')
-    const q = query(colRef,where("reserved","==",false), orderBy("price"), startAfter(last?.price), limit(4))
+    const q = query(colRef, orderBy("price"), startAfter(last?.price), limit(4))
 
     const newPosts =  (await getDocs(q)).docs.map((doc) => ({...doc.data(), id:doc.id}));
 

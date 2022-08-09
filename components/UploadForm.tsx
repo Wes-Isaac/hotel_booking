@@ -18,7 +18,6 @@ const Uploader =(data: FieldValues) => {
       ...data,
       createdAt: timestamp(),
       UpdatedAt: timestamp(),
-      reserved: false,
     }).then(() => {
       toast.success('Upload Successful', { position: toast.POSITION.TOP_CENTER })
       reset()
